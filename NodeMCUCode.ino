@@ -6,6 +6,7 @@
 #include <SoftwareSerial.h>
 
 String command;             //String to store app command state.
+int Speed;               // int to store speed specified
 
 const char* ssid = "NodeMCU Car";
 ESP8266WebServer server(80);
@@ -33,21 +34,28 @@ void setup() {
 void loop() {
     server.handleClient();
       command = server.arg("State");
+      speed = server.arg("Speed").toInt();
       switch(command){
         case "F":
-          s.write(1);
+          s.write(joinSpeedCommand(1, speed));
           break;
         case "B":
-          s.write(1);
+          s.write(joinSpeedCommand(2, speed));
           break;
         case "L":
-          s.write(1);
+          s.write(joinSpeedCommand(3, speed));
           break;
         case "R":
-          s.write(1);
+          s.write(joinSpeedCommand(4, speed));
           break;
         case "S":
-          s.write(1);
+          s.write(joinSpeedCommand(5, speed));
+          break;
+        case "Auto":
+          s.write(9999);
+          break;
+        case "Manual":
+          s.write(9998);
           break;
       }
       delay(30);
@@ -58,6 +66,16 @@ void HTTP_handleRoot(void) {
 if( server.hasArg("State") ){
        Serial.println(server.arg("State"));
   }
+if(server.hasArg("Speed")){
+       Serial.println(server.arg("Speed"));
+}
+  
   server.send ( 200, "text/html", "" );
   delay(1);
+}
+
+void joinSpeedCommand(int command, int speed){
+  int convertedCommand;
+  convertedCommand = speed*100 + command;
+  return convertedCommand;
 }
