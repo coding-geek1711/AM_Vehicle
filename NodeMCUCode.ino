@@ -33,20 +33,22 @@ void setup() {
 void loop() {
     server.handleClient();
       command = server.arg("State");
-      if (command == "F"){
-        s.write(1);
-      }
-      else if (command == "B"){
-        s.write(2);
-      }
-      else if (command == "L"){
-        s.write(3);
-      }
-      else if (command == "R"){
-        s.write(4);
-      }
-      else if(command == "S"){
-        s.write(5);
+      switch(command){
+        case "F":
+          s.write(1);
+          break;
+        case "B":
+          s.write(1);
+          break;
+        case "L":
+          s.write(1);
+          break;
+        case "R":
+          s.write(1);
+          break;
+        case "S":
+          s.write(1);
+          break;
       }
       delay(30);
 }
