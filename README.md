@@ -8,4 +8,4 @@ We are using the Software Serial class to make connections from NoddeMCU to Ardu
 
 We parse the data sent from the app by our NodeMCU and then send appropriate integer to our Arduino by the SoftwareSerial class.
 
-The Arduino recieves the integer and an if-else ladder determines the movement of the motors connected by the motordriver
+The Arduino recieves the integer and a switch case determines the movement of the motors connected by the motordriver
