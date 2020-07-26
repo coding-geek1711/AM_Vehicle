@@ -5,7 +5,7 @@
 #include <ESP8266WebServer.h>
 #include <SoftwareSerial.h>
 
-String command;             //String to store app command state.
+String command, mode;             //String to store app command state.
 int Speed;               // int to store speed specified
 
 const char* ssid = "NodeMCU Car";
@@ -33,48 +33,54 @@ void setup() {
 
 void loop() {
     server.handleClient();
-      command = server.arg("State");
-      speed = server.arg("Speed").toInt();
+    mode = server.arg("Mode");
+    command = server.arg("State");
+    speed = server.arg("Speed").toInt();
+    if(mode == "Manual"){
+      s.write(9998);
       switch(command){
-        case "F":
-          s.write(joinSpeedCommand(1, speed));
-          break;
-        case "B":
-          s.write(joinSpeedCommand(2, speed));
-          break;
-        case "L":
-          s.write(joinSpeedCommand(3, speed));
-          break;
-        case "R":
-          s.write(joinSpeedCommand(4, speed));
-          break;
-        case "S":
-          s.write(joinSpeedCommand(5, speed));
-          break;
-        case "Auto":
-          s.write(9999);
-          break;
-        case "Manual":
-          s.write(9998);
-          break;
+      case "F":
+        s.write(joinSpeedCommand(1, speed));
+        break;
+      case "B":
+        s.write(joinSpeedCommand(2, speed));
+        break;
+      case "L":
+        s.write(joinSpeedCommand(3, speed));
+        break;
+      case "R":
+        s.write(joinSpeedCommand(4, speed));
+        break;
+      case "S":
+        s.write(joinSpeedCommand(5, speed));
+        break;
       }
-      delay(30);
+    }
+    else if(mode == "Auto"){
+      s.write(9999);       // Assign 9999 to being convert to auto for arduino
+    }
+    
+    delay(30);
 }
 
 void HTTP_handleRoot(void) {
 
-if( server.hasArg("State") ){
-       Serial.println(server.arg("State"));
+  if( server.hasArg("State") ){
+         Serial.println(server.arg("State"));
+    }
+  if(server.hasArg("Speed")){
+         Serial.println(server.arg("Speed"));
   }
-if(server.hasArg("Speed")){
-       Serial.println(server.arg("Speed"));
-}
-  
+  if(server.hasArg("Mode")){
+    Serial.print("===========");
+    Serial.print("%s", server.arg("Mode"));
+    Serial.print("===========\n");
+  }
   server.send ( 200, "text/html", "" );
   delay(1);
 }
 
-void joinSpeedCommand(int command, int speed){
+int joinSpeedCommand(int command, int speed){
   int convertedCommand;
   convertedCommand = speed*100 + command;
   return convertedCommand;
