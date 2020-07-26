@@ -14,23 +14,25 @@ void setup() {
 void loop() {
   command = Serial.read();
   Serial.println(command);
-  if(command == 1){
-    Front();
-  }
-  else if(command == 2){
-    Back();
-  }
-  else if(command == 3){
-    Left();
-  }
-  else if(command == 4){
-    Right();
-  }
-  else if(command == 5){
-    Stop();
-  }
-  else{
-    Stop();
+  switch(command){
+    case 1:
+      Front();
+      break;
+    case 2:
+      Back();
+      break;
+    case 3:
+      Left();
+      break;
+    case 4:
+      Right();
+      break;
+    case 5:
+      Stop();
+      break;
+    default :
+      Stop();
+      break;
   }
   delay(30);
 }
