@@ -36,29 +36,29 @@ void loop() {
     mode = server.arg("Mode");
     command = server.arg("State");
     speed = server.arg("Speed").toInt();
-    if(mode == "Manual"){
-      s.write(9998);
-      switch(command){
-      case "F":
-        s.write(joinSpeedCommand(1, speed));
-        break;
-      case "B":
-        s.write(joinSpeedCommand(2, speed));
-        break;
-      case "L":
-        s.write(joinSpeedCommand(3, speed));
-        break;
-      case "R":
-        s.write(joinSpeedCommand(4, speed));
-        break;
-      case "S":
-        s.write(joinSpeedCommand(5, speed));
-        break;
-      }
-    }
-    else if(mode == "Auto"){
-      s.write(9999);       // Assign 9999 to being convert to auto for arduino
-    }
+    // if(mode == "Manual"){
+    //   s.write(9998);
+    //   switch(command){
+    //   case "F":
+    //     s.write(joinSpeedCommand(1, speed));
+    //     break;
+    //   case "B":
+    //     s.write(joinSpeedCommand(2, speed));
+    //     break;
+    //   case "L":
+    //     s.write(joinSpeedCommand(3, speed));
+    //     break;
+    //   case "R":
+    //     s.write(joinSpeedCommand(4, speed));
+    //     break;
+    //   case "S":
+    //     s.write(joinSpeedCommand(5, speed));
+    //     break;
+    //   }
+    // }
+    // else if(mode == "Auto"){
+    //   s.write(9999);       // Assign 9999 to being convert to auto for arduino
+    // }
     
     delay(30);
 }
@@ -80,8 +80,8 @@ void HTTP_handleRoot(void) {
   delay(1);
 }
 
-int joinSpeedCommand(int command, int speed){
-  int convertedCommand;
-  convertedCommand = speed*100 + command;
-  return convertedCommand;
-}
+// int joinSpeedCommand(int command, int speed){
+//   int convertedCommand;
+//   convertedCommand = speed*100 + command;
+//   return convertedCommand;
+// }
